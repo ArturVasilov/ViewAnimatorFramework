@@ -3,7 +3,9 @@ package ru.yota.android.animation;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.util.Property;
 import android.view.View;
@@ -158,7 +160,9 @@ public class ViewAnimatorFramework {
                 return this;
             }
             for (Animator animator : animators) {
-                mAnimatorSet.play(animator);
+                if (animator != null) {
+                    mAnimatorSet.play(animator);
+                }
             }
             return this;
         }
@@ -209,6 +213,10 @@ public class ViewAnimatorFramework {
             if (mInterpolators != null && mInterpolators.length > 0) {
                 interpolator = mInterpolators.length > i ? mInterpolators[i] : mInterpolators[0];
             }
+
+            //needed to set property value for as fromValue or it'll be no animation at all
+            ObjectAnimator.ofFloat(view, property, toValue, fromValue).setDuration(0).start();
+
             ObjectAnimator animator = ObjectAnimator.ofFloat(view, property, fromValue, toValue);
             animator.setDuration(duration);
             animator.setStartDelay(delay);
@@ -369,7 +377,9 @@ public class ViewAnimatorFramework {
                 return this;
             }
             for (Animator animator : animators) {
-                mAnimatorSet.play(animator);
+                if (animator != null) {
+                    mAnimatorSet.play(animator);
+                }
             }
             return this;
         }
@@ -415,6 +425,10 @@ public class ViewAnimatorFramework {
             if (mInterpolators != null && mInterpolators.length > 0) {
                 interpolator = mInterpolators.length > i ? mInterpolators[i] : mInterpolators[0];
             }
+
+            //needed to set property value for as fromValue or it'll be no animation at all
+            ObjectAnimator.ofFloat(mView, property, toValue, fromValue).setDuration(0).start();
+
             ObjectAnimator animator = ObjectAnimator.ofFloat(mView, property, fromValue, toValue);
             animator.setDuration(duration);
             animator.setStartDelay(delay);
@@ -896,5 +910,25 @@ public class ViewAnimatorFramework {
             animator.addListener(listener);
         }
         return animator;
+    }
+
+    @NonNull
+    public static Animator drawableAnimator(Drawable drawable, String propertyName,
+                                            float fromValue, float toValue, int duration, int delay,
+                                            Interpolator interpolator, Animator.AnimatorListener listener) {
+        if (propertyName.equalsIgnoreCase("alpha")) {
+            drawable.setAlpha((int) (fromValue * 255));
+        }
+        ObjectAnimator drawableAnimator = ObjectAnimator
+                .ofPropertyValuesHolder(drawable, PropertyValuesHolder.ofInt(propertyName,
+                        (int) (fromValue * 255), (int) (toValue * 255)));
+        drawableAnimator.setTarget(drawable);
+        drawableAnimator.setDuration(duration);
+        drawableAnimator.setStartDelay(delay);
+        drawableAnimator.setInterpolator(interpolator);
+        if (listener != null) {
+            drawableAnimator.addListener(listener);
+        }
+        return drawableAnimator;
     }
 }
