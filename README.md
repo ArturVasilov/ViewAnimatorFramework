@@ -10,7 +10,7 @@ ViewAnimatorFramework.SCALE.getAnimator(view).start();
 ```
 Appering image with alpha animation:
 ```java
-ViewAnimatorFramework.ALPHA.getAnimator(mImage, 0f, 1f, duration, 0, new AccelerateInterpolator(), null);
+ViewAnimatorFramework.ALPHA.getAnimator(mImage, 0f, 1f, duration, 0, new AccelerateInterpolator(), null).start();
 ```
 
 It also helps you to create complex set of animations in builder-style:
@@ -25,7 +25,7 @@ Animator imageAnimator = viewBuilder
         .build();
 imageAnimator.start();
 ```
-Or for more complex animations use animator method:
+Or for more complex animations use animators method:
 ```java
 ViewAnimatorFramework.ViewBuilder imageBuilder = new ViewAnimatorFramework.ViewBuilder(mImage);
 Animator imageAnimator = imageBuilder
