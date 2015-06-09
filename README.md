@@ -35,7 +35,7 @@ Animator imageAnimator = imageBuilder
 imageAnimator.start();
 ```
 
-And more, you can use your another builder to animate group of views:
+And more, you can use another builder to animate group of views:
 ```java
 ViewAnimatorFramework.GroupBuilder builder = new ViewAnimatorFramework.GroupBuilder();
 builder.views(view1, view2, view3)
@@ -53,7 +53,7 @@ builder.views(view1, view2, view3)
          })
         .build().start();
 ```
-And again you can use you animators if you want something more complicated:
+And again you can use your animators if you want to do something more complicated:
 ```java
 ViewAnimatorFramework.ViewBuilder imageBuilder = new ViewAnimatorFramework.ViewBuilder(mImage);
 Animator imageAnimator = imageBuilder
@@ -80,7 +80,7 @@ groupBuilder
         .start();
 ```
 
-With such API it's much easier to create new beautiful animations. Here is an example from API itself:
+With such API it's much easier to create new beautiful animations. Here is an example from API itself for bounce effect:
 ```java
 @NonNull
 public static Animator bounceAnimator(View view, int duration, int delay) {
